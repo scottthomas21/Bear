@@ -5,15 +5,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-//import main.java.BearWorkshop;
-
+import main.java.BearWorkshop;
 import static org.junit.Assert.*;
 
 /***
@@ -38,11 +35,11 @@ public class GivenBlackBox {
     @Parameters
     public static Collection<Object[]> courseGradesUnderTest() {
         Object[][] classes = {
-                {BearWorkshop1.class},
-                {BearWorkshop2.class},
-                {BearWorkshop3.class},
-                {BearWorkshop4.class},
-                {BearWorkshop5.class}
+                {BearWorkshop.class},
+                {BearWorkshop.class},
+                {BearWorkshop.class},
+                {BearWorkshop.class},
+                {BearWorkshop.class}
 
         };
         return Arrays.asList(classes);
@@ -61,6 +58,31 @@ public class GivenBlackBox {
 
     BearWorkshop twoBears;
     Double twoBearsExpected;
+    
+    BearWorkshop twoBearsSamePrice;
+    Double twoBearsSamePriceExpected;
+    
+    BearWorkshop threeBearsSamePrice;
+    Double threeBearsSamePriceExpected;
+    
+    BearWorkshop fourBears;
+    Double fourBearsExpected;
+    
+    BearWorkshop fourBearsSamePrice;
+    Double fourBearsSamePriceExpected;
+    
+    BearWorkshop fiveBears;
+    Double fiveBearsExpected;
+    
+    BearWorkshop fiveBearsSamePrice;
+    Double fiveBearsSamePriceExpected;
+    
+    BearWorkshop sixBears;
+    Double sixBearsExpected;
+    
+    BearWorkshop sevenBears;
+    Double sevenBearsExpected;
+   
 
     @Before
     public void setUp() throws Exception {
@@ -68,7 +90,7 @@ public class GivenBlackBox {
         // One Bear base stuffing, no saving expected
         oneBear = createBearWorkshop("NY");
         oneBear.addBear(new Bear(Stuffing.stuffing.BASE));
-        oneBearExpected = 0.00; // no savings
+        oneBearExpected = 0.00; 
         
         // Three Bears expected to not pay for cheapest one
         threeBears = createBearWorkshop("AZ");
@@ -77,6 +99,89 @@ public class GivenBlackBox {
         threeBears.addBear(new Bear(Stuffing.stuffing.FOAM));
         threeBearsExpected = 30.00;
         
+        // Three bears of the same price, third should be free
+        threeBearsSamePrice = createBearWorkshop("AZ");
+        threeBearsSamePrice.addBear(new Bear(Stuffing.stuffing.FOAM));
+        threeBearsSamePrice.addBear(new Bear(Stuffing.stuffing.FOAM));
+        threeBearsSamePrice.addBear(new Bear(Stuffing.stuffing.FOAM));
+        threeBearsSamePriceExpected = 50.00;
+        
+        // Two bears of different prices, no savings expected.  
+        // Boundary case before savings should kick in
+        twoBears = createBearWorkshop("AZ");
+        twoBears.addBear(new Bear(Stuffing.stuffing.BASE));
+        twoBears.addBear(new Bear(Stuffing.stuffing.DOWN));
+        twoBearsExpected = 0.0;
+        
+        // Two bears of the same price, no savings expected.  
+        // Boundary case before savings should kick in 
+        twoBearsSamePrice = createBearWorkshop("AZ");
+        twoBearsSamePrice.addBear(new Bear(Stuffing.stuffing.BASE));
+        twoBearsSamePrice.addBear(new Bear(Stuffing.stuffing.BASE));
+        twoBearsSamePriceExpected = 0.0;
+        
+        // Four bears of varying prices, savings of cheapest single bear expected - $30.00.  
+        // Boundary case after savings should have kicked in
+        fourBears = createBearWorkshop("AZ");
+        fourBears.addBear(new Bear(Stuffing.stuffing.BASE));
+        fourBears.addBear(new Bear(Stuffing.stuffing.FOAM));
+        fourBears.addBear(new Bear(Stuffing.stuffing.DOWN));
+        fourBears.addBear(new Bear(Stuffing.stuffing.DOWN));
+        fourBearsExpected = 30.00;
+        
+        // Four bears of the same price, savings of cheapest single bear expected - $30.00.  
+        // Boundary case after savings should have kicked in
+        fourBearsSamePrice = createBearWorkshop("AZ");
+        fourBearsSamePrice.addBear(new Bear(Stuffing.stuffing.BASE));
+        fourBearsSamePrice.addBear(new Bear(Stuffing.stuffing.BASE));
+        fourBearsSamePrice.addBear(new Bear(Stuffing.stuffing.BASE));
+        fourBearsSamePrice.addBear(new Bear(Stuffing.stuffing.BASE));
+        fourBearsSamePriceExpected = 30.00;
+        
+        // Five bears of varying prices, savings of cheapest single bear expected - $30.00.  
+        // Boundary case before second savings should kick in
+        fiveBears = createBearWorkshop("AZ");
+        fiveBears.addBear(new Bear(Stuffing.stuffing.BASE));
+        fiveBears.addBear(new Bear(Stuffing.stuffing.FOAM));
+        fiveBears.addBear(new Bear(Stuffing.stuffing.DOWN));
+        fiveBears.addBear(new Bear(Stuffing.stuffing.BASE));
+        fiveBears.addBear(new Bear(Stuffing.stuffing.DOWN));
+        fiveBearsExpected = 30.00;
+        
+        // Five bears of the same price, savings of cheapest single bear expected - $30.00.  
+        // Boundary case before second savings should kick in
+        fiveBearsSamePrice = createBearWorkshop("AZ");
+        fiveBearsSamePrice.addBear(new Bear(Stuffing.stuffing.BASE));
+        fiveBearsSamePrice.addBear(new Bear(Stuffing.stuffing.BASE));
+        fiveBearsSamePrice.addBear(new Bear(Stuffing.stuffing.BASE));
+        fiveBearsSamePrice.addBear(new Bear(Stuffing.stuffing.BASE));
+        fiveBearsSamePrice.addBear(new Bear(Stuffing.stuffing.BASE));
+        fiveBearsSamePriceExpected = 30.00;
+
+        
+        // Six bears of varying prices, savings of cheapest TWO bears expected - $60.00.  
+        // Boundary case exactly when second savings should kick in
+        sixBears = createBearWorkshop("AZ");
+        sixBears.addBear(new Bear(Stuffing.stuffing.BASE));
+        sixBears.addBear(new Bear(Stuffing.stuffing.FOAM));
+        sixBears.addBear(new Bear(Stuffing.stuffing.DOWN));
+        sixBears.addBear(new Bear(Stuffing.stuffing.BASE));
+        sixBears.addBear(new Bear(Stuffing.stuffing.DOWN));
+        sixBears.addBear(new Bear(Stuffing.stuffing.FOAM));
+        sixBearsExpected = 60.00;
+
+        // Seven bears of varying prices, savings of cheapest TWO bears expected - $60.00.  
+        // Boundary case after second savings should have kicked in
+        sevenBears = createBearWorkshop("AZ");
+        sevenBears.addBear(new Bear(Stuffing.stuffing.BASE));
+        sevenBears.addBear(new Bear(Stuffing.stuffing.BASE));
+        sevenBears.addBear(new Bear(Stuffing.stuffing.FOAM));
+        sevenBears.addBear(new Bear(Stuffing.stuffing.DOWN));
+        sevenBears.addBear(new Bear(Stuffing.stuffing.BASE));
+        sevenBears.addBear(new Bear(Stuffing.stuffing.DOWN));
+        sevenBears.addBear(new Bear(Stuffing.stuffing.FOAM));
+        sevenBearsExpected = 60.00;
+                
         
     }
 
@@ -84,7 +189,6 @@ public class GivenBlackBox {
     public void tearDown() throws Exception {
     }
 
-    // sample test
 
     /**
      * Test examines a BearFactory with 1 simple bear in it. The bear costs $30
@@ -96,16 +200,92 @@ public class GivenBlackBox {
         assertEquals(oneBearExpected, ans);
     }
 
-
-    // sample test
+    /**
+     * Test examines a BearFactory with 3 simple bears in it. The bears vary in costs and $30 in savings is expected.
+     */
     @Test
     public void threeBearsSaveOnCheapest() {
         Double ans = threeBears.calculateSavings();
         assertEquals(threeBearsExpected, ans);
     }
 
-    // sample test
- 
+    
+    /**
+     * Test examines a BearFactory with 2 simple bears in it. The bears vary in costs and $0 in savings is expected.
+     */
+    @Test
+    public void twoBearsNoSavings() {
+        Double ans = twoBears.calculateSavings();
+        assertEquals(twoBearsExpected, ans);
+    }
+    
+    /**
+     * Test examines a BearFactory with 2 simple bears in it. The bears all cost the same and $0 in savings is expected.
+     */
+    @Test
+    public void twoBearsSamePriceNoSavings() {
+        Double ans = twoBearsSamePrice.calculateSavings();
+        assertEquals(twoBearsSamePriceExpected, ans);
+    }
+    
+    /**
+     * Test examines a BearFactory with 4 simple bears in it. The bears vary in costs and $30 in savings is expected.
+     */
+    @Test
+    public void fourBearsSaveOnCheapest() {
+        Double ans = fourBears.calculateSavings();
+        assertEquals(fourBearsExpected, ans);
+    }
+    
+    /**
+     * Test examines a BearFactory with 4 simple bears in it. The bears all cost the same and $30 in savings is expected.
+     */
+    @Test
+    public void fourBearsSamePriceSaveOnCheapest() {
+        Double ans = fourBearsSamePrice.calculateSavings();
+        assertEquals(fourBearsSamePriceExpected, ans);
+    }
+    
+    /**
+     * Test examines a BearFactory with 5 simple bears in it. The bears vary in costs and $30 in savings is expected.
+     */
+    @Test
+    public void fiveBearsSaveOnCheapest() {
+        Double ans = fiveBears.calculateSavings();
+        assertEquals(fiveBearsExpected, ans);
+    }
+    
+    /**
+     * Test examines a BearFactory with 5 simple bears in it. The bears all cost the same and $30 in savings is expected.
+     */
+    @Test
+    public void fiveBearsSamePriceSaveOnCheapest() {
+        Double ans = fiveBearsSamePrice.calculateSavings();
+        assertEquals(fiveBearsSamePriceExpected, ans);
+    }
+    
+    /**
+     * Test examines a BearFactory with 6 simple bears in it. The bears vary in costs and $60 in savings is expected.
+     */
+    @Test
+    public void sixBearsSaveOnCheapestTwo() {
+        Double ans = sixBears.calculateSavings();
+        assertEquals(sixBearsExpected, ans);
+    }
+    
+    /**
+     * Test examines a BearFactory with 7 simple bears in it. The bears vary in costs and $60 in savings is expected.
+     */
+    @Test
+    public void sevenBearsSaveOnCheapestTwo() {
+        Double ans = sevenBears.calculateSavings();
+        assertEquals(sevenBearsExpected, ans);
+    }
+   
+    /**
+     * Test examines a BearFactory with 1 bear in it. This bear has three pieces of clothing.  
+     * Savings of $4 are expected.  
+     */
     @Test
     public void oneBearTest3clothingsExpectSaving() {
         BearWorkshop bears = null;
@@ -124,5 +304,123 @@ public class GivenBlackBox {
         Double ans = bears.calculateSavings();
         assertEquals(bearsExpected, ans, 0.005);
     }
+    
+    /**
+     * Test examines a BearFactory with 3 bears in it. Each bear has one piece of clothing.  
+     * Savings of $34 are expected.  
+     */
+    @Test
+    public void threeBearsWithClothingExpectSaving() {
+        BearWorkshop bears = null;
+        try {
+            bears = createBearWorkshop("AZ");
+        } catch (Exception e) {
+        }
+        Bear bear1 = new Bear(Stuffing.stuffing.BASE);
+        Bear bear2 = new Bear(Stuffing.stuffing.FOAM);
+        Bear bear3 = new Bear(Stuffing.stuffing.DOWN);
+        bears.addBear(bear1);
+        bears.addBear(bear2);
+        bears.addBear(bear3);
+	    bear1.clothing.add(new Clothing(4, "Hat"));
+	    bear2.clothing.add(new Clothing(4, "Hat"));
+	    bear3.clothing.add(new Clothing(4, "Hat"));
+	    
+        Double expectedSaving = 34.0;
+        Double ans = bears.calculateSavings();
+        assertEquals(expectedSaving, ans, 0.005);
+    }
+    
+    /**
+     * Test examines a BearFactory with 1 bear which has 9 pieces of clothing on.
+     * Savings of $12 are expected.  
+     */
+    @Test
+    public void oneBearTest9clothingsExpectSaving() {
+        BearWorkshop bears = null;
+        try {
+            bears = createBearWorkshop("AZ");
+        } catch (Exception e) {
+        }
+        Bear bear1 = new Bear(Stuffing.stuffing.BASE);
+        bears.addBear(bear1);
+
+        bear1.clothing.add(new Clothing(4, "Hat"));
+        bear1.clothing.add(new Clothing(4, "Sunglasses"));
+        bear1.clothing.add(new Clothing(4, "Shoes"));
+        bear1.clothing.add(new Clothing(4, "Jordans"));
+        bear1.clothing.add(new Clothing(4, "Hoodie"));
+        bear1.clothing.add(new Clothing(4, "Socks"));
+        bear1.clothing.add(new Clothing(4, "Boxers"));
+        bear1.clothing.add(new Clothing(4, "Tshirt"));
+        bear1.clothing.add(new Clothing(4, "Pants"));
+
+	    
+        Double expectedSavings = 12.0;
+        Double ans = bears.calculateSavings();
+        assertEquals(expectedSavings, ans, 0.005);
+    }
+    
+    /**
+     * Test examines a BearFactory with 1 bear which has 10 pieces of clothing on.
+     * Savings of $17.8 are expected.  
+     */
+    @Test
+    public void oneBearTest10clothingsExpectSaving() {
+        BearWorkshop bears = null;
+        try {
+            bears = createBearWorkshop("AZ");
+        } catch (Exception e) {
+        }
+        Bear bear1 = new Bear(Stuffing.stuffing.BASE);
+        bears.addBear(bear1);
+
+        bear1.clothing.add(new Clothing(4, "Hat"));
+        bear1.clothing.add(new Clothing(4, "Sunglasses"));
+        bear1.clothing.add(new Clothing(4, "Shoes"));
+        bear1.clothing.add(new Clothing(4, "Jordans"));
+        bear1.clothing.add(new Clothing(4, "Hoodie"));
+        bear1.clothing.add(new Clothing(4, "Socks"));
+        bear1.clothing.add(new Clothing(4, "Boxers"));
+        bear1.clothing.add(new Clothing(4, "Tshirt"));
+        bear1.clothing.add(new Clothing(4, "Pants"));
+        bear1.clothing.add(new Clothing(4, "Jacket"));
+	    
+        Double expectedSavings = 17.8;
+        Double ans = bears.calculateSavings();
+        assertEquals(expectedSavings, ans, 0.005);
+    }
+
+    /**
+     * Test examines a BearFactory with 1 bear which has 11 pieces of clothing on.
+     * Savings of $19.4 are expected.  
+     */
+    @Test
+    public void oneBearTest11clothingsExpectSaving() {
+        BearWorkshop bears = null;
+        try {
+            bears = createBearWorkshop("AZ");
+        } catch (Exception e) {
+        }
+        Bear bear1 = new Bear(Stuffing.stuffing.BASE);
+        bears.addBear(bear1);
+
+        bear1.clothing.add(new Clothing(4, "Hat"));
+        bear1.clothing.add(new Clothing(4, "Sunglasses"));
+        bear1.clothing.add(new Clothing(4, "Shoes"));
+        bear1.clothing.add(new Clothing(4, "Jordans"));
+        bear1.clothing.add(new Clothing(4, "Hoodie"));
+        bear1.clothing.add(new Clothing(4, "Socks"));
+        bear1.clothing.add(new Clothing(4, "Boxers"));
+        bear1.clothing.add(new Clothing(4, "Tshirt"));
+        bear1.clothing.add(new Clothing(4, "Pants"));
+        bear1.clothing.add(new Clothing(4, "Jacket"));
+        bear1.clothing.add(new Clothing(4, "Scarf"));
+
+        Double expectedSavings = 19.4;
+        Double ans = bears.calculateSavings();
+        assertEquals(expectedSavings, ans, 0.005);
+    }
+
 
 }
