@@ -156,9 +156,9 @@ public class BearWorkshop implements BearWorkshopInterface{
                 return -1;
         }
         double temp = 0;
-        Double Cost = Double.valueOf(0.00);
+        Double costOrig = Double.valueOf(0.00);
         for (Bear bear: BearCart) {
-            Cost = Cost + getRawCost(bear);
+            costOrig = costOrig + getRawCost(bear);
         }
         for (Bear bear: this.BearCart) {
             temp += getCost(bear);
@@ -210,7 +210,49 @@ public class BearWorkshop implements BearWorkshopInterface{
      * @return the savings if the customer would check out as double
      */
     public double calculateSavings() {
-        System.out.println("TODO: Implement me in Assignment 3");
-        return 0.0;
+    	int numBears = BearCart.size();
+		Bear zero = BearCart.get(0);
+		Bear one = BearCart.get(1);
+		Bear two = BearCart.get(2);
+		Bear three = BearCart.get(3);
+		Bear four = BearCart.get(4);
+		Bear five = BearCart.get(5);
+		Bear six = BearCart.get(6);
+		Bear seven = BearCart.get(7);
+		Bear eight = BearCart.get(8);
+		Bear nine = BearCart.get(9);
+		Bear ten = BearCart.get(10);
+		Bear eleven = BearCart.get(11);
+		
+    	int freeBears = 0;
+    	if (numBears == 0 || numBears == 1 || numBears == 2) {
+    		freeBears = 0;
+    	}
+    	else if (numBears == 3 || numBears == 4 || numBears == 5) {
+    		freeBears = 1;
+    	}
+    	else if (numBears == 6 || numBears == 7 || numBears == 8) {
+    		freeBears = 2;
+    	}
+    	else if (numBears == 9 || numBears == 10 || numBears == 11) {
+    		freeBears = 3;
+    	}
+    	
+    	int moneySavedFreeBear = 0;
+    	
+    	if (freeBears == 1) {
+    		double p1 = this.getRawCost(one);
+    		double p2 = this.getRawCost(two);
+    		double p3 = this.getRawCost(three);
+    		double p4 = this.getRawCost(four);
+    		double p5 = this.getRawCost(five);
+    		double min;
+    		min = Math.min(p1,  p2, p3, p4, p5);
+    		
+    	}
+    	int cheapestBear;
+    	int secCheapestBear;
+    	int thirdCheapestBear;
+    	return 0.0;
     }
 }
