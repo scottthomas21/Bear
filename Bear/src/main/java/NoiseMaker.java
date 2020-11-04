@@ -17,7 +17,7 @@ public class NoiseMaker {
         this.spot = location;
         
         if (spot == Location.CENTERBODY) {
-        	 this.price = 10;
+        	 this.price = 10; 
         }
         else {
             this.price = 5;
