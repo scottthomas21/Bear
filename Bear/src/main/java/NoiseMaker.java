@@ -11,25 +11,20 @@ public class NoiseMaker {
         this("Default Noise", "I wuv you", Location.CENTERBODY);
     }
 
-    public NoiseMaker(String label, String recording,
-                      Location location) {
+    public NoiseMaker(String label, String recording, Location location) {
         this.label = label;
         this.recording = recording;
         this.spot = location;
-        switch (location) {
-            case CENTERBODY:
-                this.price = 10;
-                break;
-            default:
-                this.price = 5;
-                break;
+        
+        if (spot == Location.CENTERBODY) {
+        	 this.price = 10;
+        }
+        else {
+            this.price = 5;
         }
     }
-
 
     public enum Location {
         RIGHT_HAND, LEFT_HAND, RIGHT_FOOT, LEFT_FOOT, CENTERBODY
     }
 }
-
-
