@@ -156,9 +156,9 @@ public class BearWorkshop implements BearWorkshopInterface{
                 return -1;
         }
         double temp = 0;
-        Double Cost = Double.valueOf(0.00);
+        Double costOrig = Double.valueOf(0.00);
         for (Bear bear: BearCart) {
-            Cost = Cost + getRawCost(bear);
+            costOrig = costOrig + getRawCost(bear);
         }
         for (Bear bear: this.BearCart) {
             temp += getCost(bear);
