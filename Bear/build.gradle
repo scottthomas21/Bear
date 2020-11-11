@@ -58,3 +58,4 @@ spotbugsMain {
      showProgress = true
      effort = 'max'
 }
+}
